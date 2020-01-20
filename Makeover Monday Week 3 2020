@@ -1,0 +1,19 @@
+import pandas as pd
+
+# Read in MakeoverMonday Week 3 Data
+Data = pd.read_excel('/Users/calebvalle/Desktop/Makeover Monday/2020W3.xlsx')
+
+# Rename Columns for ease
+# Note: Be careful for interpretation on year
+Data.columns = ['Group', '2010', '2012', '2014', '2016']
+
+# Reorganize data for ease in Tableau
+Data2 = pd.melt(Data, id_vars=['Group'], value_vars=[
+                '2010', '2012', '2014', '2016'], value_name='Percent', var_name='Year')
+
+# Change year to datetime
+Data2['Year'] = pd.to_datetime('1/1/' + Data2['Year'].astype(str))
+
+# Write back out to excel
+Data2.to_excel(
+    '/Users/calebvalle/Desktop/Makeover Monday/2020W3Reorg.xlsx', index=False)
